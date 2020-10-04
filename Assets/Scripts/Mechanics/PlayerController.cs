@@ -42,6 +42,8 @@ namespace Platformer.Mechanics
 
         public Bounds Bounds => collider2d.bounds;
 
+        public Joystick joystick;
+
         void Awake()
         {
             health = GetComponent<Health>();
@@ -52,6 +54,36 @@ namespace Platformer.Mechanics
         }
 
         protected override void Update()
+        {
+           // keyBoardController();
+          joyStickController();
+
+        }
+
+        void joyStickController()
+        {
+            if (controlEnabled)
+            {
+                move.x = joystick.Horizontal;
+                float y = joystick.Vertical;
+                bool vertical = (y >= 0.1f);
+                if (jumpState == JumpState.Grounded && vertical)
+                    jumpState = JumpState.PrepareToJump;
+                else if (!vertical)
+                {
+                    stopJump = true;
+                    Schedule<PlayerStopJump>().player = this;
+                }
+            }
+            else
+            {
+                move.x = 0;
+            }
+            UpdateJumpState();
+            base.Update();
+        }
+
+        void keyBoardController()
         {
             if (controlEnabled)
             {
