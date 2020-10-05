@@ -55,8 +55,8 @@ namespace Platformer.Mechanics
 
         protected override void Update()
         {
-           // keyBoardController();
-          joyStickController();
+            keyBoardController();
+          //joyStickController();
 
         }
 
